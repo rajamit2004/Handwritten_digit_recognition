@@ -1,0 +1,66 @@
+1. Importing Libraries
+In this section, the necessary Python libraries are imported to carry out the tasks:
+TensorFlow & Keras: For building and training the neural network.
+NumPy: For handling arrays and numerical operations.
+Matplotlib & Seaborn: For visualizing images and results.
+
+
+2. Loading the MNIST Dataset
+The MNIST dataset, containing 70,000 images of handwritten digits, is loaded. This dataset is split into training and test sets, with X_train and y_train for training data and X_test and y_test for testing data.
+
+(X_train, y_train), (X_test, y_test) = keras.datasets.mnist.load_data()
+
+
+3. Exploring and Visualizing the Data
+To better understand the structure of the dataset, a few training images are visualized using plt.matshow(). This function displays the 28x28 pixel images as matrices.
+
+plt.matshow(X_train[0])  
+
+
+4. Data Preprocessing
+The images in the dataset are scaled to the range [0, 1] by dividing each pixel by 255. This normalization step helps improve the performance and stability of the model during training.
+X_train = X_train / 255
+X_test = X_test / 255
+
+5. Flattening the Data
+Before feeding the data into a neural network, the images (originally 28x28 matrices) are flattened into a 1D array of size 784 (28*28). This transformation is necessary because the neural network expects a 1D vector of input.
+X_train_flattened = X_train.reshape(len(X_train), 28*28)
+X_test_flattened = X_test.reshape(len(X_test), 28*28)
+
+6. Building the Initial Model (No Hidden Layer)
+A simple neural network model is built using Keras. This model has:
+Input layer: 784 neurons (one for each pixel).
+Output layer: 10 neurons (one for each digit 0–9).
+Activation function: sigmoid.
+
+model = keras.Sequential([
+    keras.layers.Dense(10, input_shape=(784,), activation='sigmoid')
+])
+
+7. Training the Model
+The model is trained on the flattened training data for 5 epochs. After training, the model is evaluated on the test data to determine its accuracy.
+
+8. Making Predictions
+Predictions are made on the test data using the trained model, and the predicted results are analyzed using a confusion matrix to check for misclassifications.
+
+9. Adding a Hidden Layer
+To improve the model’s performance, a hidden layer with 100 neurons and ReLU activation is added. The modified model has:
+Input layer: 784 neurons.
+Hidden layer: 100 neurons.
+Output layer: 10 neurons.
+
+10. Using the Flatten Layer
+To avoid manual reshaping of input data, the Flatten layer is used, which automatically reshapes the 28x28 input images into a 1D vector of size 784. The model is then trained with the new architecture, which simplifies the code and further improves performance.
+
+model = keras.Sequential([
+    keras.layers.Flatten(input_shape=(28, 28)),
+    keras.layers.Dense(100, activation='relu'),
+    keras.layers.Dense(10, activation='sigmoid')
+])
+
+
+11. Final Evaluation and Results
+The final model is trained for 10 epochs and evaluated on the test set. Predictions are again made and visualized with the confusion matrix. The model achieves high accuracy due to the added hidden layer and use of the Flatten layer.
+
+
+
